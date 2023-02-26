@@ -1,5 +1,6 @@
 package com.kessel.demo;
 
+import java.util.HashSet;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -43,10 +44,16 @@ public class JdbcApplication {
       
       AggregateReference<Author, Long> author = AggregateReference.to(savedAuthor.id());
 
-      Post post = new Post("My First Post", "This is Sebastian'S first Post", author);
+      Post post = new Post("My First Post", "This is Sebastian'S first Post", author, new HashSet<>());
       post.addComment(new Comment("One", "This is a comment"));
       post.addComment(new Comment("Two", "This is another comment"));
       postRepository.save(post);
+      
+      Post reloadPost = postRepository.findById(post.getId()).orElseThrow();
+      reloadPost.getAuthor();
+      reloadPost.getComments();
+      
+      System.out.println(reloadPost);
     }
     
   }

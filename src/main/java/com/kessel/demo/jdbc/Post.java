@@ -1,7 +1,6 @@
 package com.kessel.demo.jdbc;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -19,13 +18,14 @@ public class Post {
   private String content;
   private LocalDateTime publishedOn;
   private LocalDateTime updatedOn;
-  private final Set<Comment> comments = new HashSet<>();
+  private final Set<Comment> comments;
   private AggregateReference<Author, Long> author;
 
-  public Post(String title, String content, AggregateReference<Author, Long> author) {
+  public Post(String title, String content, AggregateReference<Author, Long> author, Set<Comment> comments) {
     this.title = title;
     this.content = content;
     this.author = author;
+    this.comments = comments;
     this.publishedOn = LocalDateTime.now();
   }
 
@@ -81,7 +81,7 @@ public class Post {
   public Set<Comment> getComments() {
     return comments;
   }
-
+  
   public AggregateReference<Author, Long> getAuthor() {
     return author;
   }
